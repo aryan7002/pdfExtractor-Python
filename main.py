@@ -1,49 +1,50 @@
-import tkinter as tk
+from tkinter import *
 import PyPDF2
-from PIL import Image,ImageTk
+from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfile
+from functions import display_logo, display_textbox, extract_images
 
-root = tk.Tk()
+root = Tk()
+root.geometry('+%d+%d'%(350,10)) #place GUI at x=350, y=10
 
-canvas = tk.Canvas(root,width =600, height = 300)
-canvas.grid(columnspan=3,rowspan=3)
+#header area - logo & browse button
+header = Frame(root, width=800, height=175, bg="white")
+header.grid(columnspan=3, rowspan=2, row=0)
 
-#Logo 
-logo =Image.open('logo.png')
-logo = ImageTk.PhotoImage(logo)
-logo_label = tk.Label(image = logo)
-logo_label.image = logo
-logo_label.grid(column = 1, row = 0)
+#header area - logo & browse button
+save_img = Frame(root, width=800, height=175, bg="white")
+header.grid(columnspan=3, rowspan=2, row=0)
 
-#Instruction
-instruction = tk.Label(root,text="Select a PDF File on your computer",font='Rockwell')
-instruction.grid(columnspan=3,column=0,row=1)
+#main content area - text and image extraction
+main_content = Frame(root, width=800, height=250, bg="#20bebe")
+main_content.grid(columnspan=3, rowspan=2, row=2)
 
 def open_file():
     browse_text.set("loading...")
-    file = askopenfile(parent=root,mode='rb',title="Chose the file",filetype=[('Pdf files','*.pdf')])
+    file = askopenfile(parent=root, mode='rb', filetypes=[("Pdf file", "*.pdf")])
     if file:
         read_pdf = PyPDF2.PdfFileReader(file)
-        page= read_pdf.getPage(0)
-        page_content= page.extractText()
-        #text box
-        text_box = tk.Text(root, height=10, width=50, padx=15, pady=15)
-        text_box.insert(1.0, page_content)
-        text_box.tag_configure("center", justify="center")
-        text_box.tag_add("center", 1.0, "end")
-        text_box.grid(column=1, row=3)
+        page = read_pdf.getPage(0)
+        page_content = page.extractText()
+        #page_content = page_content.encode('cp1252')
+        page_content = page_content.replace('\u2122', "'")
 
+        #show text box on row 2 col 0
+        display_textbox(page_content, 2, 0, root)
+
+        #reset the button text back to Browse
         browse_text.set("Browse")
-        
 
+display_logo('logo.png', 0, 0)
 
-#Browse Button 
-browse_text = tk.StringVar()
-browse_btn = tk.Button(root,textvariable=browse_text ,command=open_file,font='Rockwell',bg='#20bebe',fg='white',height=2,width=15)
+#instructions
+instructions = Label(root, text="Select a PDF file", font=("Raleway", 10), bg="white")
+instructions.grid(column=2, row=0, sticky=SE, padx=75, pady=5)
+
+#browse button
+browse_text = StringVar()
+browse_btn = Button(root, textvariable=browse_text, command=lambda:open_file(), font=("Raleway",12), bg="#20bebe", fg="white", height=1, width=15)
 browse_text.set("Browse")
-browse_btn.grid(column=1,row=2)
-
-canvas = tk.Canvas(root,width =600, height = 250)
-canvas.grid(columnspan=3)
+browse_btn.grid(column=2, row=1, sticky=NE, padx=50)
 
 root.mainloop()
