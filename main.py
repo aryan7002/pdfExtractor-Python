@@ -13,7 +13,7 @@ header.grid(columnspan=3, rowspan=2, row=0)
 
 #header area - logo & browse button
 save_img = Frame(root, width=800, height=175, bg="white")
-header.grid(columnspan=3, rowspan=2, row=0)
+save_img.grid(columnspan=3, rowspan=2, row=0)
 
 #main content area - text and image extraction
 main_content = Frame(root, width=800, height=250, bg="#20bebe")
