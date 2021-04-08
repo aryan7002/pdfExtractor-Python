@@ -2,7 +2,7 @@ from tkinter import *
 import PyPDF2
 from PIL import Image, ImageTk
 from tkinter.filedialog import askopenfile
-from functions import display_logo, display_textbox, extract_images
+from functions import display_logo, display_textbox, extract_images,display_icon
 
 root = Tk()
 root.geometry('+%d+%d'%(350,10)) #place GUI at x=350, y=10
@@ -10,6 +10,16 @@ root.geometry('+%d+%d'%(350,10)) #place GUI at x=350, y=10
 #header area - logo & browse button
 header = Frame(root, width=800, height=175, bg="white")
 header.grid(columnspan=3, rowspan=2, row=0)
+
+image_menu= Frame(root, width=800, height=60)
+image_menu.grid(columnspan=3, rowspan=1, row=2)
+
+What_img =Label(root,text="image 1 of 5" ,font=("shanti",10))
+What_img.grid(row=2,column=1)
+
+display_icon('arrow_l.png', 2, 0)
+display_icon('arrow_r.png', 2, 2)
+
 
 #header area - logo & browse button
 save_img = Frame(root, width=800, height=60, bg="#c8c8c8")

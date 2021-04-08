@@ -11,6 +11,15 @@ def display_logo(url, row, column):
     img_label.image = img
     img_label.grid(column=column, row=row, rowspan=2, sticky=NW, padx=20, pady=40)
 
+def display_icon(url, row, column):
+    img = Image.open(url)
+    #resize image
+    icon = img.resize((20,20))
+    icon = ImageTk.PhotoImage(icon)
+    icon_label = Button(image=icon,width=25,height=25)
+    icon_label.image = icon
+    icon_label.grid(column=column, row=row)
+
 #place a tebox on the pages
 def display_textbox(content, ro, col, root):
     text_box = Text(root, height=10, width=30, padx=10, pady=10)
